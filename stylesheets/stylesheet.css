@@ -16,6 +16,18 @@ body {
   margin: 0 auto;
 }
 
+.member {
+  float: left;
+  margin: 10px;
+  height: 50px;
+  line-height: 50px;
+}
+
+.member a, .member a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
 section {
   display: block;
   margin: 0 0 20px 0;
