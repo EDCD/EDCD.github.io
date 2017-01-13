@@ -1,0 +1,82 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "https://edcd.github.io/schemas/ship-1.json",
+  "title": "Elite Dangerous ship loadout interchange",
+  "type": "object",
+  "required": [ "id", "name", "modules" ],
+  "properties": {
+    "cargo": {
+      "type": "object",
+      "required": [ "capacity" ],
+      "properties": {
+        "capacity": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "free": { "type": "boolean" },
+    "fuel": {
+      "type": "object",
+      "required": [ "main" ],
+      "properties": {
+        "main": {
+          "type": "object",
+          "required": [ "capacity" ],
+          "properties": {
+            "capacity": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "reserve": {
+          "type": "object",
+          "required": [ "capacity" ],
+          "properties": {
+            "capacity": { "type": "number", "minimum": 0, "exclusiveMinimum": true }
+          }
+        }
+      }
+    },
+    "id": { "$ref": "#/definitions/FDevID" },
+    "modules": {
+      "type": "object",
+      "required": [ "Armour", "FrameShiftDrive", "FuelTank", "LifeSupport", "MainEngines", "PowerDistributor", "PowerPlant", "Radar" ],
+      "patternProperties": {
+        ".*": {
+          "oneOf": [
+            { "type": "array", "maxItems": 0 },
+            { "type": "object",
+              "required": [ "module" ],
+              "additionalProperties": false,
+              "properties": {
+                "module": {
+                  "type": "object",
+                  "required": [ "id", "name" ],
+                  "properties": {
+                    "free":     { "type": "boolean" },
+                    "id":       { "$ref": "#/definitions/FDevID" },
+                    "name":     { "$ref": "#/definitions/FDevSym" },
+                    "on":       { "type": "boolean" },
+                    "priority": { "type": "integer", "minimum": 1 },
+                    "unloaned": { "type": "integer", "minimum": 0 },
+                    "value":    { "type": "integer", "minimum": 0 }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "name": { "$ref": "#/definitions/FDevSym" },
+    "value": {
+      "type": "object",
+      "required": [ "hull", "modules" ],
+      "properties": {
+        "hull":     { "type": "integer", "minimum": 1 },
+        "modules":  { "type": "integer", "minimum": 1 },
+        "unloaned": { "type": "integer", "minimum": 1 }
+      }
+    }
+  },
+  "definitions": {
+    "FDevID":  { "type": "integer", "minimum": 1 },
+    "FDevSym": { "type": "string", "minLength": 1 }
+  }
+}
