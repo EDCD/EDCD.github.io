@@ -49,13 +49,42 @@
                   "type": "object",
                   "required": [ "id", "name" ],
                   "properties": {
-                    "free":     { "type": "boolean" },
-                    "id":       { "$ref": "#/definitions/FDevID" },
-                    "name":     { "$ref": "#/definitions/FDevSym" },
-                    "on":       { "type": "boolean" },
-                    "priority": { "type": "integer", "minimum": 1 },
-                    "unloaned": { "type": "integer", "minimum": 0 },
-                    "value":    { "type": "integer", "minimum": 0 }
+                    "free":       { "type": "boolean" },
+                    "id":         { "$ref": "#/definitions/FDevID" },
+                    "modifiers":  {
+                      "type": "object",
+                      "required": [ "id", "modifiers", "recipeID" ],
+                      "properties": {
+                        "engineerID": { "type": "integer", "minimum": 1 },
+                        "id":         { "type": "integer", "minimum": 1 },
+                        "modifiers":  {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "required": [ "name", "type", "value" ],
+                            "properties": {
+                              "name":       { "$ref": "#/definitions/FDevSym" },
+                              "type":       { "type": "integer", "minimum": 1 },
+                              "value":      { "type": "number" }
+                            }
+                          }
+                        },
+                        "moduleTags": {
+                          "type": "array",
+                          "items": { "type": "integer" }
+                        },
+                        "recipeID":   { "$ref": "#/definitions/FDevID" },
+                        "slotIndex":  { "type": "integer", "minimum": 0 }
+                      }
+                    },
+                    "name":       { "$ref": "#/definitions/FDevSym" },
+                    "on":         { "type": "boolean" },
+                    "priority":   { "type": "integer", "minimum": 0 },
+                    "recipeLevel":{ "type": "integer", "minimum": 1 },
+                    "recipeName": { "$ref": "#/definitions/FDevSym" },
+                    "recipeValue":{ "type": "integer", "minimum": 0 },
+                    "unloaned":   { "type": "integer", "minimum": 0 },
+                    "value":      { "type": "integer", "minimum": 0 }
                   }
                 }
               }
@@ -67,10 +96,10 @@
     "name": { "$ref": "#/definitions/FDevSym" },
     "value": {
       "type": "object",
-      "required": [ "hull", "modules" ],
       "properties": {
         "hull":     { "type": "integer", "minimum": 1 },
         "modules":  { "type": "integer", "minimum": 1 },
+        "total":    { "type": "integer", "minimum": 1 },
         "unloaned": { "type": "integer", "minimum": 1 }
       }
     }
