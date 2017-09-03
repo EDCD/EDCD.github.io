@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "https://edcd.github.io/schemas/ship-2-draft1.json",
+  "title": "Elite Dangerous ship loadout interchange",
+  "type": "object",
+  "required": [ "id", "name", "modules" ],
+  "properties": {
+    "free":    { "type": "boolean" },
+    "id":      { "type": "integer" },
+    "modules": {
+      "type": "object",
+      "required": [ "Armour", "FrameShiftDrive", "FuelTank", "LifeSupport", "MainEngines", "PowerDistributor", "PowerPlant", "Radar" ],
+      "patternProperties": {
+        ".*": {
+          "type": "object",
+          "required": [ "module" ],
+          "properties": {
+            "module": {
+              "type": "object",
+              "required": [ "name", "on", "priority" ],
+              "properties": {
+                "free":     { "type": "boolean" },
+                "name":     { "$ref": "#/definitions/FDevSym" },
+                "on":       { "type": "boolean" },
+                "priority": { "type": "integer" }
+              }
+            },
+            "engineer": {
+              "type": "object",
+              "required": [ "engineerName", "recipeLevel", "recipeName" ],
+              "properties": {
+                "engineerName": { "$ref": "#/definitions/nonEmptyString" },
+                "recipeLevel":  { "$ref": "#/definitions/nonZeroInteger" },
+                "recipeName":   { "$ref": "#/definitions/FDevSym" }
+              }
+            },
+            "WorkInProgress_modifications": {
+              "type": "object",
+              "patternProperties": {
+                ".*": {
+                  "type": "object",
+                  "required": [ "value" ],
+                  "properties": {
+                    "value": { "type": "number" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "name":     { "$ref": "#/definitions/nonEmptyString" },
+    "shipID":   { "$ref": "#/definitions/nonEmptyString" },
+    "shipName": { "$ref": "#/definitions/nonEmptyString" }
+  },
+  "definitions": {
+    "FDevSym":        { "type": "string", "minLength": 1 },
+    "nonEmptyString": { "type": "string", "minLength": 1 },
+    "nonZeroInteger": { "type": "integer", "minimum": 1 }
+  }
+}
