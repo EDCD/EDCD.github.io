@@ -27,7 +27,7 @@
             },
             "engineer": {
               "type": "object",
-              "required": [ "engineerName", "recipeLevel", "recipeName" ],
+              "required": [ "recipeLevel", "recipeName" ],
               "properties": {
                 "engineerName": { "$ref": "#/definitions/nonEmptyString" },
                 "recipeLevel":  { "$ref": "#/definitions/nonZeroInteger" },
