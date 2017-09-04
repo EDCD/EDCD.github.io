@@ -1,18 +1,39 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "https://edcd.github.io/schemas/ship-2-draft1.json",
+  "id": "https://edcd.github.io/schemas/ship-2-draft2.json",
   "title": "Elite Dangerous ship loadout interchange",
   "type": "object",
   "required": [ "id", "name", "modules" ],
   "properties": {
     "free":    { "type": "boolean" },
     "id":      { "type": "integer" },
+    "launchBays": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^Slot\\d+_": {
+          "type": "object",
+          "additionalProperties": false,
+          "patternProperties": {
+            "^SubSlot\\d+": {
+              "type": "object",
+              "required": [ "name" ],
+              "properties": {
+                "loadout": { "$ref": "#/definitions/FDevSym" },
+                "name":    { "$ref": "#/definitions/FDevSym" }
+              }
+            }
+          }
+        }
+      }
+    },
     "modules": {
       "type": "object",
       "required": [ "Armour", "FrameShiftDrive", "FuelTank", "LifeSupport", "MainEngines", "PowerDistributor", "PowerPlant", "Radar" ],
       "patternProperties": {
-        ".*": {
+        "": {
           "type": "object",
+          "additionalProperties": false,
           "required": [ "module" ],
           "properties": {
             "module": {
@@ -37,7 +58,7 @@
             "WorkInProgress_modifications": {
               "type": "object",
               "patternProperties": {
-                ".*": {
+                "": {
                   "type": "object",
                   "required": [ "value" ],
                   "properties": {
@@ -45,6 +66,20 @@
                   }
                 }
               }
+            },
+            "specialModifications": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "patternProperties": {
+                    "^special_": {
+                      "type": "null"
+                    }
+                  }
+                },
+                { "type": "array", "maxItems": 0 }
+              ]
             }
           }
         }
