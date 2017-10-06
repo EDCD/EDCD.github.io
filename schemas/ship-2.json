@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "https://edcd.github.io/schemas/ship-2-draft2.json",
+  "id": "https://edcd.github.io/schemas/ship-2.json",
   "title": "Elite Dangerous ship loadout interchange",
   "type": "object",
   "required": [ "id", "name", "modules" ],
@@ -19,8 +19,9 @@
               "type": "object",
               "required": [ "name" ],
               "properties": {
-                "loadout": { "$ref": "#/definitions/FDevSym" },
-                "name":    { "$ref": "#/definitions/FDevSym" }
+                "loadout":     { "$ref": "#/definitions/FDevSym" },
+                "loadoutName": { "$ref": "#/definitions/nonEmptyString" },
+                "name":        { "$ref": "#/definitions/FDevSym" }
               }
             }
           }
@@ -57,8 +58,9 @@
             },
             "WorkInProgress_modifications": {
               "type": "object",
+              "additionalProperties": false,
               "patternProperties": {
-                "": {
+                "^OutfittingFieldType_": {
                   "type": "object",
                   "required": [ "value" ],
                   "properties": {
